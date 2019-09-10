@@ -33,7 +33,6 @@ void main()
    makeInterrupt21();
    printLogo();
    printString("Hello world from Brendon.\r\n\0",1);
-   /*interrupt(33,0,"Hello world from your name\r\n\0",1,0);*/
    while(1);
 }
 
@@ -43,17 +42,13 @@ void printString(char* c, int d)
    char al;
    char ah;
    int ax;
-   
-   while(c[i] != '\0')  /*loop until null terminator is reached*/
+   while(c[i] != '\0')
    {
-      al = c[i];        /*set to next character in string*/
+      al = c[i];
       ah = 14;
       ax = ah * 256 + al;
-      if(d == 1)
-         interrupt(23, c[i], 0, 0, 0);  /*print to screen*/
-      else
-         interrupt(16, ax, 0, 0, 0);    /*print to printer*/
-      i++;  /*increment to next character in string*/
+      interrupt(16, ax, 0, 0, 0);
+      i++;
    }
    return;
 }
@@ -80,12 +75,12 @@ void printLogo()
 
 void handleInterrupt21(int ax, int bx, int cx, int dx)
 {
-/*   return;  */
-   switch(ax) {
-      case 0:
+   return;
+/*   switch(ax) {  */
+/*      case 0:  */
 /*      case 1: case 2: case 3: case 4: case 5: */
 /*      case 6: case 7: case 8: case 9: case 10: */
 /*      case 11: case 12: case 13: case 14: case 15: */
-      default: printString("General BlackDOS error.\r\n\0");
+/*      default: printString("General BlackDOS error.\r\n\0"); */
 /*   }  */
 }
