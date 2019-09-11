@@ -25,24 +25,24 @@
 /* 3460:4/526 BlackDOS2020 kernel, Version 1.03, Fall 2019.               */
 
 void handleInterrupt21(int,int,int,int);
-void printString(char*,int);
+/*void printString(char*,int);*/
 void printLogo();
 
 void main()
 {
    makeInterrupt21();
    printLogo();
-   printString("Hello world from Brendon.\r\n\0",1);
-   /*interrupt(33,0,"Hello world from your name\r\n\0",1,0);*/
+/*   printString("Hello world from Brendon.\r\n\0",1); */
+   interrupt(33,0,"Hello world from Brendon.\r\n\0",1,0);
    while(1);
 }
 
 void printString(char* c, int d)
 {
-   int i = 0;
-   char al;
-   char ah;
-   int ax;
+   int i = 0; /**/
+   char al;   /**/
+   char ah;   /**/
+   int ax;    /**/
    
    while(c[i] != '\0')  /*loop until null terminator is reached*/
    {
@@ -50,7 +50,7 @@ void printString(char* c, int d)
       ah = 14;
       ax = ah * 256 + al;
       if(d == 1)
-         interrupt(23, c[i], 0, 0, 0);  /*print to screen*/
+         interrupt(23, al, 0, 0, 0);  /*print to screen*/
       else
          interrupt(16, ax, 0, 0, 0);    /*print to printer*/
       i++;  /*increment to next character in string*/
@@ -67,7 +67,7 @@ void printLogo()
    printString("   //   \\\\        | |_) | | (_| | (__|   <| |__| | |__| |____) |\r\n\0",0);
    printString("._/'     `\\.      |____/|_|\\__,_|\\___|_|\\_\\_____/ \\____/|_____/\r\n\0",0);
    printString(" BlackDOS2020 v. 1.03, c. 2019. Based on a project by M. Black. \r\n\0",0);
-   printString(" Author(s): your name(s) here.\r\n\r\n\0",0);
+   printString(" Author(s): Brendon, Corey, .\r\n\r\n\0",0);
 }
 
 /* MAKE FUTURE UPDATES HERE */
@@ -82,10 +82,10 @@ void handleInterrupt21(int ax, int bx, int cx, int dx)
 {
 /*   return;  */
    switch(ax) {
-      case 0:
+      case 0: printString(bx, cx);
 /*      case 1: case 2: case 3: case 4: case 5: */
 /*      case 6: case 7: case 8: case 9: case 10: */
 /*      case 11: case 12: case 13: case 14: case 15: */
       default: printString("General BlackDOS error.\r\n\0");
-/*   }  */
+   }
 }
