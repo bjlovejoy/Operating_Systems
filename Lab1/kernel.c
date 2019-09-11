@@ -33,28 +33,37 @@ void main()
    makeInterrupt21();
    printLogo();
 /*   printString("Hello world from Brendon, Corey and Colin.\r\n\0",1); */
-   interrupt(33,0,"Hello world from Brendon, Corey and Colin.\r\n\0",1,0);
+   interrupt(33, 0, "Hello world from Brendon, Corey and Colin.\r\n\0", 1, 0);
    while(1);
 }
 
 void printString(char* c, int d)
 {
-   int i = 0; /*Variable for iterating through c-string*/
-   char al;   /*Set equal to current character in c-string*/
-   char ah;   /*Set equal to 14 to call interrupt 16*/
-   int ax;    /*Value to pass to interrupt when d = 0*/
+   int i = 0;       /*Variable for iterating through c-string*/
+   char al;         /*Set equal to current character in c-string*/
+   char ah = 14;    /*Set equal to 14 to call interrupt 16*/
+   int ax;          /*Value to pass to interrupt when d = 0*/
    
-   while(c[i] != '\0')  /*loop until null terminator is reached*/
+   if(d == 0)  /*print to screen*/
    {
-      al = c[i];        /*set to next character in string*/
-      ah = 14;
-      ax = ah * 256 + al;
-      if(d == 1)
-         interrupt(23, al, 0, 0, 0);  /*print to screen*/
-      else
-         interrupt(16, ax, 0, 0, 0);    /*print to printer*/
-      i++;  /*increment to next character in string*/
+      while(c[i] != '\0')  /*loop until null terminator is reached*/
+      {
+         al = c[i];        /*set to next character in string*/
+         ax = ah * 256 + al;
+         interrupt(16, ax, 0, 0, 0);    /*print to screen*/
+         i++;  /*increment to next character in string*/
+      }
    }
+   else  /*print to printer*/
+   {
+      while(c[i] != '\0')  /*loop until null terminator is reached*/
+      {
+         al = c[i];        /*set to next character in string*/
+         interrupt(23, al, 0, 0, 0);  /*print to printer*/
+         i++;  /*increment to next character in string*/
+      }
+   }
+
    return;
 }
 
@@ -83,6 +92,7 @@ void handleInterrupt21(int ax, int bx, int cx, int dx)
 /*   return;  */
    switch(ax) {
       case 0: printString(bx, cx);
+              break;
 /*      case 1: case 2: case 3: case 4: case 5: */
 /*      case 6: case 7: case 8: case 9: case 10: */
 /*      case 11: case 12: case 13: case 14: case 15: */
