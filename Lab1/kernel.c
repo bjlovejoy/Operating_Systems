@@ -19,7 +19,7 @@
 /*                                                                        */
 /*                                                                        */
 /*                                                                        */
-/* Signed:_Brendon Lovejoy_____________________ Date:_9-10-19_____        */
+/* Signed:_Brendon Lovejoy, Corey Miller, Colin Frame__ Date:_9-10-19__   */
 /*                                                                        */
 /*                                                                        */
 /* 3460:4/526 BlackDOS2020 kernel, Version 1.03, Fall 2019.               */
@@ -32,17 +32,17 @@ void main()
 {
    makeInterrupt21();
    printLogo();
-/*   printString("Hello world from Brendon.\r\n\0",1); */
-   interrupt(33,0,"Hello world from Brendon.\r\n\0",1,0);
+/*   printString("Hello world from Brendon, Corey and Colin.\r\n\0",1); */
+   interrupt(33,0,"Hello world from Brendon, Corey and Colin.\r\n\0",1,0);
    while(1);
 }
 
 void printString(char* c, int d)
 {
-   int i = 0; /**/
-   char al;   /**/
-   char ah;   /**/
-   int ax;    /**/
+   int i = 0; /*Variable for iterating through c-string*/
+   char al;   /*Set equal to current character in c-string*/
+   char ah;   /*Set equal to 14 to call interrupt 16*/
+   int ax;    /*Value to pass to interrupt when d = 0*/
    
    while(c[i] != '\0')  /*loop until null terminator is reached*/
    {
@@ -67,7 +67,7 @@ void printLogo()
    printString("   //   \\\\        | |_) | | (_| | (__|   <| |__| | |__| |____) |\r\n\0",0);
    printString("._/'     `\\.      |____/|_|\\__,_|\\___|_|\\_\\_____/ \\____/|_____/\r\n\0",0);
    printString(" BlackDOS2020 v. 1.03, c. 2019. Based on a project by M. Black. \r\n\0",0);
-   printString(" Author(s): Brendon, Corey, .\r\n\r\n\0",0);
+   printString(" Author(s): Brendon Lovejoy, Corey Miller, Colin Frame.\r\n\r\n\0",0);
 }
 
 /* MAKE FUTURE UPDATES HERE */
