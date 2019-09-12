@@ -34,4 +34,10 @@ ld86 -o kernel -d kernel.o kasm.o
 dd if=kernel of=floppya.img bs=512 conv=notrunc seek=259
 
 #Run this to start the bochs simulator after running this script (./compileOS.sh)
-#echo "c" | bochs -f bdos.txt
+echo "Wanna run bochs, boss? (Y/n)"
+read -n 1 response
+if [ "$response" == "n" ]; then
+	echo "Alrighty, I guess not then :("
+else
+	echo "c" | bochs -q -f bdos.txt
+fi
