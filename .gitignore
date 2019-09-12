@@ -1,0 +1,6 @@
+*.o
+kernel
+bootload
+*.out
+floppya.img
+bochs.out
