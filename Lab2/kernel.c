@@ -26,16 +26,21 @@
 
 void handleInterrupt21(int,int,int,int);
 /*void printString(char*,int);*/
-void readString();
-void printLogo();
+char *readString(char[]);
+void readInt(int*);
+void writeInt(int);
+void printLogo("");
 
 void main()
 {
+   char c[100];
+   char *test;
+   
    makeInterrupt21();
    printLogo();
-/*   printString("Hello world from Brendon, Corey and Colin.\r\n\0",1); */
-   interrupt(33, 0, "Please enter input: \r\n\0", 1, 0);
-   readString();
+   interrupt(33, 0, "Please enter input: \r\n\0", 0, 0);
+   test = readString(c);
+   interrupt(33, 0, test, 0, 0);
    while(1);
 }
 
@@ -69,26 +74,6 @@ void printString(char* c, int d)
    return;
 }
 
-void readString()
-{
-    int i = 0;
-    char c[80];
-    /*do{*/
-    while(1)
-    {
-       c[i] = interrupt(22, 0, 0, 0, 0);
-       interrupt(16, (14 * 256 + c[i]), 0, 0, 0);
-       i++;
-        
-    }
-    /*} while(c[i] != 13);*/
-    i++;
-    c[i] = '\0';
-}
-
-
-
-
 void printLogo()
 {
    printString("       ___   `._   ____  _            _    _____   ____   _____ \r\n\0",0);
@@ -104,7 +89,48 @@ void printLogo()
 /* MAKE FUTURE UPDATES HERE */
 /* VVVVVVVVVVVVVVVVVVVVVVVV */
 
+char *readString(char c[100])
+{
+    int i = 0;
+    int e;
+    char test;
+    char *test2;
+    while(test != 13)
+    {
+       test = interrupt(22, 0, 0, 0, 0);
+       if(test == 8 && i > 0)
+       {
+          i--;
+          interrupt(16, (14 * 256 + test), 0, 0, 0);
+       }
+       else if(test == 13)
+          c[i] = '\0';
+       else
+       {
+          c[i] = test;
+          interrupt(16, (14 * 256 + c[i]), 0, 0, 0);
+          i++;
+       }
+    }
+    for(e = 0; e <= i; e++)
+       test2[e] = c[e];
+    return test2;
+    /*interrupt(16, (14 * 256 + '\n'), 0, 0, 0);
+    printString(c, 0);*/
+}
+/*
+void readInt(int* i)
+{
+   *n = 0;
+   readString();
+   *n = int();
+}
 
+
+void writeInt(int i)
+{
+   ;
+}*/
 
 /* ^^^^^^^^^^^^^^^^^^^^^^^^ */
 /* MAKE FUTURE UPDATES HERE */
@@ -115,7 +141,9 @@ void handleInterrupt21(int ax, int bx, int cx, int dx)
    switch(ax) {
       case 0: printString(bx, cx);
               break;
-/*      case 1: case 2: case 3: case 4: case 5: */
+      /*case 1: readString(bx, cx);
+              break;*/
+/*      case 2: case 3: case 4: case 5: */
 /*      case 6: case 7: case 8: case 9: case 10: */
 /*      case 11: case 12: case 13: case 14: case 15: */
       default: printString("General BlackDOS error.\r\n\0");
