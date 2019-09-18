@@ -26,7 +26,7 @@
 
 void handleInterrupt21(int,int,int,int);
 /*void printString(char*,int);*/
-char *readString(char[]);
+/*char *readString(char[]);*/
 int mod(int, int);
 int div(int, int);
 void readInt(int*);
@@ -37,11 +37,17 @@ void main()
 {
    char c[100];
    char *test;
+   int t = 0;
    
    makeInterrupt21();
    printLogo();
-   writeInt(5678);
-   interrupt(33, 0, "Please enter input: \0", 0, 0);
+   
+   interrupt(33, 0, "Please enter num: \0", 0, 0);
+   readInt(&t);
+   interrupt(33, 0, "\r\nYou typed: \0", 0, 0);
+   writeInt(t);
+   
+   interrupt(33, 0, "\r\n\nPlease enter input: \0", 0, 0);
    interrupt(33, 1, test, 0, 0);
    interrupt(33, 0, "\r\nYou typed: \0", 0, 0);
    interrupt(33, 0, test, 0, 0);
@@ -96,9 +102,7 @@ void printLogo()
 char *readString(char c[100])
 {
     int i = 0;
-    int e;
     char test;
-    /*char *test2;*/
     while(test != 13)
     {
        test = interrupt(22, 0, 0, 0, 0);
@@ -116,12 +120,7 @@ char *readString(char c[100])
           i++;
        }
     }
-    /*for(e = 0; e <= i; e++)
-       test2[e] = c[e];
-    return test2;*/
     return c;
-    /*interrupt(16, (14 * 256 + '\n'), 0, 0, 0);
-    printString(c, 0);*/
 }
 
 int mod(int a, int b)
@@ -141,13 +140,14 @@ int div(int a, int b)
 void readInt(int* n)
 {
    int i = 0;
-   char c[100];
    char *p;
-   *n = 0;
-   p = readString(c);
+   /*char c[100];*/
+   interrupt(33, 1, p, 0, 0);
+   interrupt(33, 0, p, 0, 0);
    while(p[i] != '\0')
    {
-      n[i] = (int)p[i];
+      *n *= 10;
+      *n += (p[i] - '0');
       i++;
    }
 }
@@ -158,7 +158,6 @@ void writeInt(int x)
    int temp = x;
    int i;
    char c[10];
-   
    if(temp == 0)
       size++;
    while(temp != 0)
@@ -169,10 +168,10 @@ void writeInt(int x)
    c[size] = '\0';
    for(i = (size-1); i >= 0; i--)
    {
-      c[i] = (char)mod(x, 10);
+      c[i] = mod(x, 10) + '0';
       x = div(x, 10);
    }
-   printString(c, 0);
+   interrupt(33, 0, c, 0, 0);
 }
 /* ^^^^^^^^^^^^^^^^^^^^^^^^ */
 /* MAKE FUTURE UPDATES HERE */
@@ -181,13 +180,18 @@ void handleInterrupt21(int ax, int bx, int cx, int dx)
 {
 /*   return;  */
    switch(ax) {
-      case 0: printString(bx, cx);
-              break;
-      case 1: readString(bx);
-              break;
+      case 0:  printString(bx, cx);
+               break;
+      case 1:  readString(bx);
+               break;
+
+      case 13: writeInt(bx, cx);
+               break;
+      case 14: readInt(bx);
+               break;
 /*      case 2: case 3: case 4: case 5: */
 /*      case 6: case 7: case 8: case 9: case 10: */
-/*      case 11: case 12: case 13: case 14: case 15: */
+/*      case 11: case 12: case 15: */
       default: printString("General BlackDOS error.\r\n\0");
    }
 }
