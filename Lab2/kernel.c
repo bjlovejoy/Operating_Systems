@@ -27,6 +27,8 @@
 void handleInterrupt21(int,int,int,int);
 /*void printString(char*,int);*/
 char *readString(char[]);
+int mod(int, int);
+int div(int, int);
 void readInt(int*);
 void writeInt(int);
 void printLogo("");
@@ -38,8 +40,10 @@ void main()
    
    makeInterrupt21();
    printLogo();
-   interrupt(33, 0, "Please enter input: \r\n\0", 0, 0);
-   test = readString(c);
+   writeInt(5678);
+   interrupt(33, 0, "Please enter input: \0", 0, 0);
+   interrupt(33, 1, test, 0, 0);
+   interrupt(33, 0, "\r\nYou typed: \0", 0, 0);
    interrupt(33, 0, test, 0, 0);
    while(1);
 }
@@ -94,7 +98,7 @@ char *readString(char c[100])
     int i = 0;
     int e;
     char test;
-    char *test2;
+    /*char *test2;*/
     while(test != 13)
     {
        test = interrupt(22, 0, 0, 0, 0);
@@ -112,26 +116,64 @@ char *readString(char c[100])
           i++;
        }
     }
-    for(e = 0; e <= i; e++)
+    /*for(e = 0; e <= i; e++)
        test2[e] = c[e];
-    return test2;
+    return test2;*/
+    return c;
     /*interrupt(16, (14 * 256 + '\n'), 0, 0, 0);
     printString(c, 0);*/
 }
-/*
-void readInt(int* i)
+
+int mod(int a, int b)
 {
-   *n = 0;
-   readString();
-   *n = int();
+   int x = a;
+   while (x >= b) x = x - b;
+   return x;
 }
 
-
-void writeInt(int i)
+int div(int a, int b)
 {
-   ;
-}*/
+   int q = 0;
+   while (q * b <= a) q++;
+   return (q - 1);
+}
 
+void readInt(int* n)
+{
+   int i = 0;
+   char c[100];
+   char *p;
+   *n = 0;
+   p = readString(c);
+   while(p[i] != '\0')
+   {
+      n[i] = (int)p[i];
+      i++;
+   }
+}
+
+void writeInt(int x)
+{
+   int size = 0;
+   int temp = x;
+   int i;
+   char c[10];
+   
+   if(temp == 0)
+      size++;
+   while(temp != 0)
+   {
+      size++;
+      temp = div(temp, 10);
+   }
+   c[size] = '\0';
+   for(i = (size-1); i >= 0; i--)
+   {
+      c[i] = (char)mod(x, 10);
+      x = div(x, 10);
+   }
+   printString(c, 0);
+}
 /* ^^^^^^^^^^^^^^^^^^^^^^^^ */
 /* MAKE FUTURE UPDATES HERE */
 
@@ -141,8 +183,8 @@ void handleInterrupt21(int ax, int bx, int cx, int dx)
    switch(ax) {
       case 0: printString(bx, cx);
               break;
-      /*case 1: readString(bx, cx);
-              break;*/
+      case 1: readString(bx);
+              break;
 /*      case 2: case 3: case 4: case 5: */
 /*      case 6: case 7: case 8: case 9: case 10: */
 /*      case 11: case 12: case 13: case 14: case 15: */
