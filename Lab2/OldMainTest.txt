@@ -1,0 +1,17 @@
+   char c[100];
+   char *test;
+   int t = 0;
+   
+   makeInterrupt21();
+   printLogo();
+   
+   interrupt(33, 0, "Please enter num: \0", 0, 0);
+   interrupt(33, 14, &t, 0, 0);
+   interrupt(33, 0, "You typed: \0", 0, 0);
+   interrupt(33, 13, t, 0, 0);
+   
+   interrupt(33, 0, "\r\n\nPlease enter input: \0", 0, 0);
+   interrupt(33, 1, test, 0, 0);
+   interrupt(33, 0, "You typed: \0", 0, 0);
+   interrupt(33, 0, test, 0, 0);
+   while(1);
