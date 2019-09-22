@@ -1,0 +1,66 @@
+1.  Delete main code (MADLIBS)
+2.  Will be adding 4 new functions (place before handleInterrupt21() )
+3.  Also add interrupt calls to these functions
+
+*****************************************************************
+//read consecutive disk sectors
+readSector(bx, cx, dx)
+
+Use BIOS interrupt 19
+Use parameters and equations at the bottom of page 1 and top of 2
+Need AX, CX and DX
+Need relSecNo, headNo and trackNo (need to use MOD and DIV functions)
+
+Pass character array of 512 bytes or more, an absolute section number
+to begin reading at and the number of sectors to read
+
+Function will compute relative sector, head and track and will also
+call interrupt 19 (not sure if DEC or HEX 19)
+
+Add to main function
+After compiling kernel.c and rebuilding floppy.img, run
+
+dd if=msg of=floppya.img bs=512 count=1 seek=30 conv=notrunc
+
+Now run bochs and if message prints out, it works
+
+*****************************************************************
+
+//write consecutive disk sectors
+writeSector(bx, cx, dx)
+
+Almost identical to readSector(), but AX = 768 + sectorCount
+
+Should work fine if readSector() does
+
+*****************************************************************
+
+//clear screen and set colors
+clearScreen(bx, cx)
+
+Will do 3 things:
+1.  Make 24 carriage return/newline combos (use interrupt 16 calls to place
+                                            individual characters)
+2.  Issue command interrupt(15, 512, 0, 0, 0);
+3.  If bx and cx > 0, execute:
+        interrupt(16, 1536, 4096 * (bx – 1) + 256 * (cx – 1), 0, 6223);
+
+Explanation:
+BIOS function 16/2 puts cursor in top left corner after existing text
+has been cleared
+BIOS function 16/6 scrolls the window with parameters listed towards the
+bottom middle of page 3
+
+The attribute byte (bolded) describes color and intensity of subsequent characters as well as background color.
+Here, bx = background color and cx = character/foreground color.
+Zero values will mean no change.
+Colors are shown in table at bottom of page 3.
+
+If bx is larger than 8 or cx is larger than 16, make no change to
+the color scheme.
+(Remember that values passed in are one larger than those in table)
+---Decrement---
+
+*****************************************************************
+
+FINAL TEST CASE
