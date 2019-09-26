@@ -33,5 +33,8 @@ ld86 -o kernel -d kernel.o kasm.o
 #Copies kernel to sector 259
 dd if=kernel of=floppya.img bs=512 conv=notrunc seek=259
 
+#Adds msg file to the disk image (for this lab only)
+dd if=msg of=floppya.img bs=512 count=1 seek=30 conv=notrunc
+
 #Run this to start the bochs simulator after running this script (./compileOS.sh)
 #echo "c" | bochs -f bdos.txt
