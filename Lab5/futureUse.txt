@@ -1,0 +1,14 @@
+ 
+void handleCommands(char *buffer)
+{
+   char letter;
+   int front = 0;
+   int back = 0;
+   
+   
+   do
+   {
+      letter = buffer[back];
+      back++;
+   } while(letter != '\0' || letter != ' ');
+}
