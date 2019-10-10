@@ -15,6 +15,7 @@ void main()
    char color_buffer[512];
    char config_background;
    char config_foreground;
+   int i = 0;
    
    interrupt(33, 2, color_buffer, 258, 1);
    config_background = color_buffer[0];
@@ -26,6 +27,7 @@ void main()
       interrupt(33,0,"^(~(oo)~)^ \0",0,0);
       interrupt(33, 1, buffer, 0, 0);
       handleCommands(buffer, config_background, config_foreground);
+      i = 0;
       clearBuffer(buffer, 100);
    }
 }
