@@ -1,14 +1,8 @@
  
-void handleCommands(char *buffer)
-{
-   char letter;
-   int front = 0;
-   int back = 0;
-   
-   
-   do
-   {
-      letter = buffer[back];
-      back++;
-   } while(letter != '\0' || letter != ' ');
-}
+Things to implement:
+
+argument counting, make sure copy takes no more than 2.
+
+(instead of cutting off argments, check for additional and call fault for
+ too many arguments)
+
