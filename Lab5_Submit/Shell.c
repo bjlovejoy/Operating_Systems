@@ -75,10 +75,10 @@ void handleCommands(char *buffer, char background, char foreground)
       {
          interrupt(33, 0, "Command    : \0", 0, 0);
          interrupt(33, 0, cmd, 0, 0);
-         interrupt(33, 0, "\r\nArgument(s): \0", 0, 0);
+         interrupt(33, 0, "\r\nArgument 1 : \0", 0, 0);
          parseWord(word, buffer, 1, 0);
          interrupt(33, 0, word, 0, 0);
-         interrupt(33, 0, " \0", 0, 0);
+         interrupt(33, 0, "\r\nArgument 2 : \0", 0, 0);
          parseWord(word, buffer, 2, 0);
          interrupt(33, 0, word, 0, 0);
          interrupt(33, 0, "\r\n\0", 0, 0);
