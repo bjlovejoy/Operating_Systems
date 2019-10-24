@@ -1,0 +1,52 @@
+ 
+   /*
+   for(i = 0; i < 4; i++)
+   {
+      j = 128 * i;
+      if(fname[j] == buffer[j])
+      {
+         while(fname[j] != '\0')
+         {
+            if(fname[j] != buffer[j])
+               same = 0;
+            j++;
+         }
+         if(buffer[j] != '\0')
+            same = 0;
+         if(same == 1)
+            finalSame = 1;
+      }
+   }
+   */
+
+
+
+
+//TESTING
+
+   /*
+   i = 16;
+   while(i < 24)
+   {
+      interrupt(16, 14 * 256 + directory[i], 0, 0, 0);
+      interrupt(16, 14 * 256 + '\r', 0, 0, 0);
+      interrupt(16, 14 * 256 + '\n', 0, 0, 0);
+      i++;
+   }*/
+
+
+
+         interrupt(16, 14 * 256 + directory[j], 0, 0, 0);
+         interrupt(16, 14 * 256 + '\r', 0, 0, 0);
+         interrupt(16, 14 * 256 + '\n', 0, 0, 0);
+
+
+
+      interrupt(16, 14 * 256 + match + 65, 0, 0, 0);
+      interrupt(16, 14 * 256 + '\r', 0, 0, 0);
+      interrupt(16, 14 * 256 + '\n', 0, 0, 0);
+
+
+
+
+
