@@ -69,6 +69,8 @@ dd if=Shell of=floppya.img bs=512 count=25 seek=30 conv=notrunc
 ./loadFile Stenv
 ./loadFile ddir
 ./loadFile userManual
+./loadFile t3
+./loadFile cal
 
 
 #Run this to start the bochs simulator after running this script (./compileOS.sh)
