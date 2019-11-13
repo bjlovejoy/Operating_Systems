@@ -244,7 +244,7 @@ void readFile(char *fname, char *buffer, int *size)
    int j = 0;     /*Iterate through individual characters*/
    int k = 0;     /*Iterate through file name*/
    int location = 0;    /*Holds location of file*/
-   int fileSize = 0;
+   int fileSize = 0;    /*Holds size of file (number of sectors)*/
    int same = 1;        /*True if file name is the same as in the buffer*/
    int match = 0;       /*True if complete match*/
    int end = 0;         /*True if done with iteration*/
@@ -307,11 +307,10 @@ void writeFile(char *name, char *buffer, int numberOfSectors)
    int same = 1;     /*True if file name is the same as in the buffer*/
    int match = 0;    /*True if complete match*/
    int end = 0;      /*True if done with iteration*/
-   int emptyLocation = 0;    /*Holds location for new file*/
-   int foundEmpty = 0;       /*Determine if already found empty location*/
-   int spaceStart = 0;
-   int space = 0;
-   int consec = 0;
+   int emptyLocation = 0;  /*Holds location for new file*/
+   int foundEmpty = 0;     /*Determine if already found empty location*/
+   int spaceStart = 0;     /*Where empty map space starts*/
+   int space = 0;          /*Amount of empty map space available after spaceStart*/
 
    char directory[512]; /*Holds contents of disk directory*/
    char map[512];       /*Holds contents of disk map*/
@@ -407,19 +406,12 @@ void writeFile(char *name, char *buffer, int numberOfSectors)
 
 void deleteFile(char *name)
 {
-      /*writeFile should be done, this seems like same thing.
-        See if name exists, if it does, set all corresponding
-        back to null or 0*/
-        
-        /*Also, may need to replace map search in writeFile from
-         looking for 0's to looking for '\0' */
-        
    int i = 0;     /*Iterate through files*/
    int j = 0;     /*Iterate through individual characters*/
    int k = 0;     /*Iterate through file name*/
    int l = 0;     /*Iterate through sectors that need written to null*/
    int location = 0;    /*Holds location of file*/
-   int fileSize = 0;
+   int fileSize = 0;    /*Holds size of file*/
    int same = 1;        /*True if file name is the same as in the buffer*/
    int match = 0;       /*True if complete match*/
    int end = 0;         /*True if done with iteration*/
@@ -463,17 +455,18 @@ void deleteFile(char *name)
 
    if(match == 1)
    {
-      i--;
+      i--;  /*Return to previous row*/
       
       for (j = i*16; j<(i*16+16); j++)
       {
-         directory[j] = '\0';
+         directory[j] = '\0';  /*Delete directory entry*/
       }
       
       for (l = location; l < location + fileSize; l++)
       {
-         map[l] = '\0';
-         interrupt(33, 6, emptySector, l, 1);
+         map[l] = '\0';  /*Free map space*/
+         /*Empty file data from sector (NOT IMPLEMENTED)*/
+         /*interrupt(33, 6, emptySector, l, 1);*/
       }
       
       /*write edited map and directory back to the disk*/
@@ -483,7 +476,7 @@ void deleteFile(char *name)
    }
    else
    {
-      interrupt(33, 15, 0, 0, 0);
+      interrupt(33, 15, 0, 0, 0);  /*File not found error*/
    }
 }
 
