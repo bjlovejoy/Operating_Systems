@@ -1,0 +1,14 @@
+https://stackoverflow.com/questions/27541910/how-to-use-execvp
+
+http://www.csl.mtu.edu/cs4411.ck/www/NOTES/process/fork/exec.html
+
+https://support.sas.com/documentation/onlinedoc/sasc/doc700/html/lr2/zid-7307.htm
+
+https://www.bing.com/search?q=execvp%28%29&form=QBLH&sp=-1&pq=execvp%28%29&sc=8-8&qs=n&sk=&cvid=144A5C91C6BC440E84D61A697CCB3D2D
+
+
+
+IDEA:
+
+Try moving the shell termination line within if statement
+(return 0 within "if 'Q'" statement and add termination printf)
