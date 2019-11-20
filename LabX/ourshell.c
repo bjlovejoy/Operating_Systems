@@ -58,68 +58,80 @@ int parseCommand(char *, struct command_t *);
 void printPrompt();
 void readCommand(char *);
 void storeString(char *, char *, int);
+void list();
+void internet();
+void execute(char *, int);
 
 //int main(int argc, char *argv[])
 int main()
 {
-   int i = 0;
    int pid;
    int status;
-   int realcmd;
+   int skip;
+   int background;
    char cmdLine[MAX_LINE_LEN];
    struct command_t command;
 
    while(TRUE)
    {
-      realcmd = 1;
+      skip = 0;
+      background = 0;
       printPrompt();
       /* Read the command line and parse it */
       readCommand(cmdLine);
-     // ...
+      
       parseCommand(cmdLine, &command);
-     // ...
+      
       command.argv[command.argc] = NULL;
 
+      switch(command.name[0])
+      {
+         case 'C':  //Copy file
+            storeString(command.name, "cp", 2);
+            printf("\nCOPY ARG: %d\n", command.argc);
+            break;
+         case 'D':  //Delete file
+            storeString(command.name, "rm", 2);
+            break;
+         case 'E':  //Echo text
+            storeString(command.name, "echo", 4);
+            break;
+         case 'H':  //Help
+            break;
+         case 'L':  //List directory contents
+            list();
+            skip = 1;
+            break;
+         case 'M':  //Make text file and launch editor
+            storeString(command.name, "nano", 4);
+            break;
+         case 'P':  //Print file contents to screen
+            storeString(command.name, "more", 4);
+            break;
+         case 'Q':  //Shell termination
+            printf("\nshell: Terminating successfully\n\n");
+            return 0;
+         case 'S':  //Launch internet browser as background process
+            internet();
+            background = 1;
+            skip = 1;
+            break;
+         case 'W':  //Clear screen
+            storeString(command.name, "clear", 5);
+            break;
+         case 'X':  //Execute program
+            execute(command.argv[1], command.argc);
+            skip = 1;
+            break;
+         case '\0': //Enter key pressed without a command
+            skip = 1;
+            break;
+      }
 
-//      if(command.name[1] == '\0')
-         switch(command.name[0])
-         {
-            case 'C':
-               storeString(command.name, "cp", 2);
-               break;
-            case 'D':
-               storeString(command.name, "rm", 2);
-               break;
-            case 'E':
-               storeString(command.name, "echo", 4);
-               break;
-            case 'M':
-               storeString(command.name, "nano", 4);
-               break;
-            case 'P':
-               storeString(command.name, "more", 4);
-               break;
-            case 'S':
-               storeString(command.name, "firefox &", 9);
-               break;
-            case 'W':
-               storeString(command.name, "clear", 5);
-               break;
-            case 'X':
-               //storestring();
-               break;
-            case 'Q':
-               //Shell termination
-               printf("\nshell: Terminating successfully\n\n");
-               return 0;
-         }
-//      else
-         realcmd = 0;
-
-//  if(realcmd)
-  {
       /* Create a child process to execute the command */
-      if((pid = fork()) == 0)
+      if(skip)
+         ;  //Does nothing, avoids creating a child process
+      else if((pid = fork()) == 0)
       {
          /* Child executing command */
          execvp(command.name, command.argv);
@@ -127,16 +139,10 @@ int main()
          printf("\nERROR: NOT VALID COMMAND\n");
          return 0;
       }
-/*This was for testing, but 2 processes are called*/
-      //else
-      //   printf("\nERROR - FORK did not work: %d\n", pid);
 
-      /* Wait for the child to terminate */
-      wait(&status);
-
-  }
-//  else
-//    printf("\nERROR - NOT realcmd\n");
+      /* Wait for the child to terminate (if not a background process) */
+      if(!background)
+         wait(&status);
    }
 }
 
@@ -162,12 +168,12 @@ int parseCommand(char *cLine, struct command_t *cmd)
    argc = 0;
    cmd->argv[argc] = (char *) malloc(MAX_ARG_LEN);
    /* Fill argv[] */
-   while ((cmd->argv[argc] = strsep(clPtr, WHITESPACE)) != NULL) {
+   while ((cmd->argv[argc] = strsep(clPtr, WHITESPACE)) != NULL)
+   {
       cmd->argv[++argc] = (char *) malloc(MAX_ARG_LEN);
    }
-
    /* Set the command name and argc */
-   cmd->argc = argc-1;
+   cmd->argc = argc - 1;
    cmd->name = (char *) malloc(sizeof(cmd->argv[0]));
    strcpy(cmd->name, cmd->argv[0]);
    return 1;
@@ -206,6 +212,107 @@ void storeString(char *save, char *text, int num)
    for(i = 0; i < num; i++)
       save[i] = text[i];
 }
+
+void list()
+{
+   int pid;
+   int status;
+   struct command_t pwdCmd;
+   struct command_t lsCmd;
+   char pwdBuf[4];
+   char lsBuf[6];
+   
+   storeString(pwdBuf, "pwd\0", 4);
+   parseCommand(pwdBuf, &pwdCmd);
+   
+   printf("\n");
+   
+   if((pid = fork()) == 0)
+   {
+      /* Child executing cmd */
+      execvp(pwdCmd.name, pwdCmd.argv);
+      printf("\nERROR: NOT VALID COMMAND\n");
+      exit(0);
+   }
+   wait(&status);
+
+   printf("\n");
+   storeString(lsBuf, "ls -l\0", 6);
+   parseCommand(lsBuf, &lsCmd);
+   
+   if((pid = fork()) == 0)
+   {
+      /* Child executing cmd */
+      execvp(lsCmd.name, lsCmd.argv);
+      printf("\nERROR: NOT VALID COMMAND\n");
+      exit(0);
+   }
+}
+
+void internet()
+{
+   int pid;
+   struct command_t cmd;
+   char inBuf[9];
+   storeString(inBuf, "firefox\0", 8);  //change to \0 and 9
+   
+   printf("Hi\n");
+   parseCommand(inBuf, &cmd);
+
+   if((pid = fork()) == 0)
+   {
+      /* Child executing cmd */
+      execvp(cmd.name, cmd.argv);
+      printf("\nERROR: NOT VALID COMMAND\n");
+      exit(0);
+   }
+}
+
+void execute(char* text, int num)
+{
+   struct command_t cmd;
+   
+   if(num == 2)
+   {
+      int i;
+      int pid;
+      int status;
+      int len = strlen(text);
+      char buffer[len + 3];
+      
+      buffer[0] = '.';
+      buffer[1] = '/';
+      for(i = 0; i < len; i++)
+         buffer[i + 2] = text[i];
+      
+      buffer[len + 2] = '\0';
+      
+      parseCommand(buffer, &cmd);
+      if((pid = fork()) == 0)
+      {
+         /* Child executing cmd */
+         execvp(cmd.name, cmd.argv);
+         printf("\nERROR: not valid file name\n");
+         exit(0);
+      }
+      wait(&status);
+   }
+   else
+      printf("\nPlease list 1 program.\n\n");
+}
+
+
+
+
+//printf("\n%s\n", (const char*)(command.name));
+
+
+
+
+
+
+
+
 
 
 

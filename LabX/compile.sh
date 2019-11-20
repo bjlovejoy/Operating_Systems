@@ -2,4 +2,10 @@
 ulimit -u
 
 #compile myshell
-gcc -o myshell myshell.c
+gcc -o ourshell ourshell.c
+
+#compile help (operator's manual)
+gcc -o helpMan helpMan.c
+
+#automatically run shell
+#./ourshell
