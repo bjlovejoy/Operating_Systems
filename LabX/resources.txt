@@ -8,7 +8,8 @@ https://www.bing.com/search?q=execvp%28%29&form=QBLH&sp=-1&pq=execvp%28%29&sc=8-
 
 
 
-IDEA:
+http://www.cs.ecu.edu/karl/4630/sum01/example1.html
 
-Try moving the shell termination line within if statement
-(return 0 within "if 'Q'" statement and add termination printf)
+https://www.bing.com/search?q=how+to+use+fork+and+execvp&qs=RI&pq=use+fork+and+exec&sk=SC1&sc=2-17&cvid=51FF8823DE174432BC71A8CAEBEF4D7C&FORM=QBLH&sp=2
+
+

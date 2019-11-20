@@ -32,7 +32,7 @@
  * names like "minishell.h"
  *
  * The focus on this exercise is to use fork, PATH variables,
- * and execv. 
+ * and execv.
  */
 
 #include <sys/wait.h>
@@ -80,9 +80,8 @@ int main()
      // ...
       command.argv[command.argc] = NULL;
 
-      //if()
-         
-      if(command.name[1] == '\0')
+
+//      if(command.name[1] == '\0')
          switch(command.name[0])
          {
             case 'C':
@@ -94,26 +93,50 @@ int main()
             case 'E':
                storeString(command.name, "echo", 4);
                break;
-            default:
-               realcmd = 0;
+            case 'M':
+               storeString(command.name, "nano", 4);
+               break;
+            case 'P':
+               storeString(command.name, "more", 4);
+               break;
+            case 'S':
+               storeString(command.name, "firefox &", 9);
+               break;
+            case 'W':
+               storeString(command.name, "clear", 5);
+               break;
+            case 'X':
+               //storestring();
+               break;
+            case 'Q':
+               //Shell termination
+               printf("\nshell: Terminating successfully\n\n");
+               return 0;
          }
+//      else
+         realcmd = 0;
 
-
-
+//  if(realcmd)
+  {
       /* Create a child process to execute the command */
-      if (realcmd && (pid = fork()) == 0) {
+      if((pid = fork()) == 0)
+      {
          /* Child executing command */
          execvp(command.name, command.argv);
+//         printf("\nERROR - execvp returned -1\n");
+         printf("\nERROR: NOT VALID COMMAND\n");
+         return 0;
       }
+/*This was for testing, but 2 processes are called*/
+      //else
+      //   printf("\nERROR - FORK did not work: %d\n", pid);
+
       /* Wait for the child to terminate */
       wait(&status);
 
-      if(command.name[0] == 'Q')
-      {
-         /* Shell termination */
-         printf("\n\n shell: Terminating successfully\n");
-         return 0;
-      }
+  }
+//  else
+//    printf("\nERROR - NOT realcmd\n");
    }
 }
 
@@ -130,7 +153,8 @@ int main()
  * argv[1], and so on. Each time we add a token to argv[],
  * we increment argc.
  */
-int parseCommand(char *cLine, struct command_t *cmd) {
+int parseCommand(char *cLine, struct command_t *cmd)
+{
    int argc;
    char **clPtr;
    /* Initialization */
@@ -153,7 +177,8 @@ int parseCommand(char *cLine, struct command_t *cmd) {
 
 /* Print prompt and read command functions - pp. 79-80 */
 
-void printPrompt() {
+void printPrompt()
+{
    /* Build the prompt string to have the machine name,
     * current directory, or other desired information
     */
@@ -161,7 +186,8 @@ void printPrompt() {
    printf("%s ", promptString);
 }
 
-void readCommand(char *buffer) {
+void readCommand(char *buffer)
+{
    /* This code uses any set of I/O functions, such as those in
     * the stdio library to read the entire command line into
     * the buffer. This implementation is greatly simplified,
@@ -180,23 +206,6 @@ void storeString(char *save, char *text, int num)
    for(i = 0; i < num; i++)
       save[i] = text[i];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
