@@ -1,0 +1,56 @@
+_________________________________________________________________
+|                    General Commands Manual                    |   
+|                                                               |            
+|      This shell has 11 custom commands while mainting the     |
+|       functionality of the original Linux shell commands      |                                                   |
+|                                                               |
+|       How to use the 11 custom commands are listed below      |
+|                                                               |
+|      *------------------Important Notes------------------*    |
+|      *  The term "arg#" is the argument, where # is the  *    |
+|      *  number in the order of arguments it appears in   *    |
+|                                                               |
+|       C arg1 arg2                                             |
+|           Copies a file in the current directory of name      |
+|           arg1 to a new file in the current directory of      |
+|           name arg2                                           |
+|                                                               |
+|       D arg1                                                  |
+|           Deletes a file in the current directory of name     |
+|           arg1                                                |
+|                                                               |
+|       E arg1                                                  |
+|           Outputs arg1 to the console, where arg1 is user     |
+|           inputted text that may contain any character        |
+|           including spaces and quotes                         |
+|                                                               |
+|       H                                                       |
+|           Prints the help file to the console containing      |
+|           a list of commands and their functionality          |
+|                                                               |
+|       L                                                       |
+|           Prinst the current working directory and lists      |
+|           the contents of the directory to the console,       |
+|           including the owner and date modified of each file  |
+|                                                               |
+|       M arg1                                                  |
+|           Creates a new file in the current directory with    |
+|           name arg1 and opens up nano to edit                 |
+|                                                               |
+|       P arg1                                                  |
+|           Prints the contents of a file in the current        |
+|           directory named arg1 to the console                 |
+|                                                               |
+|       Q   Quits the shell                                     |
+|                                                               |
+|       S                                                       |
+|           Opens firefox in background to allow you to surf    |
+|           the web while still being able to use the console   |
+|                                                               |
+|       W   Clears all text from the screen                     |
+|                                                               |
+|       X arg1                                                  |
+|           Executes a file in the current directory with       |
+|           name arg1                                           |
+|                                                               |
+|_______________________________________________________________|       
