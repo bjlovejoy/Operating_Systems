@@ -10,6 +10,21 @@
 void P();  //wait and --
 void V();  //release and ++
 
+void agent1();
+void agent2();
+void agent3();
+
+void pusher1();
+void pusher2();
+void pusher3();
+
+void paperSmoker1();
+void paperSmoker2();
+void tobaccoSmoker1();
+void tobaccoSomker2();
+void matchSmoker1();
+void matchSmoker2();
+
 //These determine what is currently on the table
 Boolean	isTobacco = false,
 	isPaper   = false,
@@ -31,9 +46,14 @@ Semaphore	agentSem   = 1,
 
 int main()
 {
+
+}
 //Need to make 3 agent threads sleep for random period
 //of time (up to 200 milliseconds) before beginning to
 //wait on agentSem
+void agent1()
+{
+int i = 0;
 while(i < 6)
 {
    usleep(((rand() % 200) + 1) * 1000);
@@ -42,7 +62,11 @@ while(i < 6)
    V(paper);
    i++;
 }
+}
 
+void agent2()
+{
+int j = 0;
 while(j < 6)
 {
    usleep(((rand() % 200) + 1) * 1000);
@@ -51,7 +75,11 @@ while(j < 6)
    V(match);
    j++;
 }
+}
 
+void agent3()
+{
+int k = 0;
 while(k < 6)
 {
    usleep(((rand() % 200) + 1) * 1000);
@@ -60,12 +88,15 @@ while(k < 6)
    V(paper);
    k++;
 }
-
+}
 
 
 
 //3 pushers for each combination
 //One with tobacco
+void pusher1()
+{
+int x = 0;
 while(x < 12)
 {
    P(tobacco);
@@ -85,8 +116,12 @@ while(x < 12)
    V(mutex);
    x++;
 }
+}
 
 //One with paper
+void pusher2()
+{
+int y = 0;
 while(y < 12)
 {
    P(paper);
@@ -106,8 +141,12 @@ while(y < 12)
    V(mutex);
    y++;
 }
+}
 
 //One with match
+void pusher3()
+{
+int z = 0;
 while(z < 12)
 {
    P(match);
@@ -127,7 +166,7 @@ while(z < 12)
    V(mutex);
    z++;
 }
-
+}
 
 
 //CONSIDER THAT SEMAPHORES ARE ITERATORS (instead of a, b, c, ...)
@@ -188,7 +227,6 @@ while(f < 3)
    f++
 }
 
-}
 
 
 
