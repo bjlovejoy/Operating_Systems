@@ -4,6 +4,7 @@
 #include <stdio.h>	//printing to screen (for testing)
 #include <stdlib.h>	//basic functions
 #include <pthread.h>
+#include <semaphore.h>
 
 #define true  1
 #define false 0
@@ -36,14 +37,14 @@ int	isTobacco = false,
 // the items on the table
 //*tobaccoSem, paperSem and matchSem singal the smokers
 //*mutex is for mutual exclusion
-int		agentSem   = 1,
-		tobacco    = 0,
-		paper      = 0,
-		match      = 0,
-		tobaccoSem = 0,
-		paperSem   = 0,
-		matchSem   = 0,
-		mutex      = 1;
+sem_t		agentSem,
+		tobacco,
+		paper,
+		match,
+		tobaccoSem,
+		paperSem,
+		matchSem,
+		mutex;
 
 
 
@@ -52,14 +53,25 @@ int		agentSem   = 1,
 
 int main()
 {
+printf("Here First");
+
+   sem_init(&agentSem, 0, 1);
+   sem_init(&tobacco, 0, 0);
+   sem_init(&paper, 0, 0);
+   sem_init(&match, 0, 0);
+   sem_init(&tobaccoSem, 0, 0);
+   sem_init(&paperSem, 0, 0);
+   sem_init(&matchSem, 0, 0);
+   sem_init(&mutex, 0, 1);
+
    pthread_t a1, a2, a3;
    pthread_t p1, p2, p3;
    pthread_t tS1, tS2, pS1, pS2, mS1, mS2;
-
+printf("Here");
    pthread_create(&a1, NULL, agent1, NULL);
    pthread_create(&a2, NULL, agent2, NULL);
    pthread_create(&a3, NULL, agent3, NULL);
-
+printf("Over Here");
    pthread_create(&p1, NULL, pusher1, NULL);
    pthread_create(&p2, NULL, pusher2, NULL);
    pthread_create(&p3, NULL, pusher3, NULL);
@@ -86,6 +98,8 @@ int main()
    pthread_join(pS2, NULL);
    pthread_join(mS1, NULL);
    pthread_join(mS2, NULL);
+
+   return 0;
 }
 
 
@@ -107,6 +121,7 @@ void *agent1()
       V(paper);
       i++;
    }
+   pthread_exit(0);
 }
 
 void *agent2()

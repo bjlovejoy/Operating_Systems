@@ -1,5 +1,5 @@
 #limit number of threads that start
-#ulimit -u
+ulimit -u
 
 #compile LabY
 gcc -pthread -o smoker smoker.c
