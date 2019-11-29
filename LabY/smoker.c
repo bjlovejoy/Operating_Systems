@@ -20,14 +20,14 @@ void pusher2();
 void pusher3();
 
 void tobaccoSmoker1();
-void tobaccoSomker2();
+void tobaccoSmoker2();
 void paperSmoker1();
 void paperSmoker2();
 void matchSmoker1();
 void matchSmoker2();
 
 //These determine what is currently on the table
-Boolean	isTobacco = false,
+int	isTobacco = false,
 	isPaper   = false,
 	isMatch   = false;
 
@@ -36,7 +36,7 @@ Boolean	isTobacco = false,
 // the items on the table
 //*tobaccoSem, paperSem and matchSem singal the smokers
 //*mutex is for mutual exclusion
-Semaphore	agentSem   = 1,
+int		agentSem   = 1,
 		tobacco    = 0,
 		paper      = 0,
 		match      = 0,
@@ -52,34 +52,34 @@ Semaphore	agentSem   = 1,
 
 int main()
 {
-   p_thread a1, a2, a3;
-   p_thread p1, p2, p3;
-   p_thread tS1, tS2, pS1, pS2, mS1, mS2;
-   
+   pthread_t a1, a2, a3;
+   pthread_t p1, p2, p3;
+   pthread_t tS1, tS2, pS1, pS2, mS1, mS2;
+
    pthread_create(&a1, NULL, agent1, NULL);
    pthread_create(&a2, NULL, agent2, NULL);
    pthread_create(&a3, NULL, agent3, NULL);
-   
+
    pthread_create(&p1, NULL, pusher1, NULL);
    pthread_create(&p2, NULL, pusher2, NULL);
    pthread_create(&p3, NULL, pusher3, NULL);
-      
+
    pthread_create(&tS1, NULL, tobaccoSmoker1, NULL);
    pthread_create(&tS2, NULL, tobaccoSmoker2, NULL);
    pthread_create(&pS1, NULL, paperSmoker1, NULL);
    pthread_create(&pS2, NULL, paperSmoker2, NULL);
    pthread_create(&mS1, NULL, matchSmoker1, NULL);
    pthread_create(&mS2, NULL, matchSmoker2, NULL);
-   
-   
+
+
    pthread_join(a1, NULL);
    pthread_join(a2, NULL);
    pthread_join(a3, NULL);
-   
+
    pthread_join(p1, NULL);
    pthread_join(p2, NULL);
    pthread_join(p3, NULL);
-   
+
    pthread_join(tS1, NULL);
    pthread_join(tS2, NULL);
    pthread_join(pS1, NULL);
@@ -199,7 +199,7 @@ void pusher3()
       if(isPaper)
       {
          isPaper = false;
-         V(TobaccoSem);
+         V(tobaccoSem);
       }
       else if(isTobacco)
       {
@@ -292,7 +292,7 @@ void matchSmoker2()
       usleep(((rand() % 50) + 1) * 1000);
       V(agentSem);
       usleep(((rand() % 50) + 1) * 1000);
-      f++
+      f++;
    }
 }
 
@@ -302,8 +302,8 @@ void matchSmoker2()
 
 void P(int s)
 {
-   while(s == 0)
-      wait();
+   while(s == 0);
+      //wait
 
    s = s -1;
 }

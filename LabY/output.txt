@@ -1,0 +1,112 @@
+Script started on 2019-11-28 20:23:59-0500
+]0;bjl66@knuth2: ~/Downloads/Operating_Systems/LabYbjl66@knuth2:~/Downloads/Operating_Systems/LabY$ ./compile.sh 
+[01m[Ksmoker.c:[m[K In function ‘[01m[Kmain[m[K’:
+[01m[Ksmoker.c:59:30:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&a1, NULL, [01;35m[Kagent1[m[K, NULL);
+                              [01;35m[K^~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:60:30:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&a2, NULL, [01;35m[Kagent2[m[K, NULL);
+                              [01;35m[K^~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:61:30:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&a3, NULL, [01;35m[Kagent3[m[K, NULL);
+                              [01;35m[K^~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:63:30:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&p1, NULL, [01;35m[Kpusher1[m[K, NULL);
+                              [01;35m[K^~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:64:30:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&p2, NULL, [01;35m[Kpusher2[m[K, NULL);
+                              [01;35m[K^~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:65:30:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&p3, NULL, [01;35m[Kpusher3[m[K, NULL);
+                              [01;35m[K^~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:67:31:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&tS1, NULL, [01;35m[KtobaccoSmoker1[m[K, NULL);
+                               [01;35m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:68:31:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&tS2, NULL, [01;35m[KtobaccoSmoker2[m[K, NULL);
+                               [01;35m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:69:31:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&pS1, NULL, [01;35m[KpaperSmoker1[m[K, NULL);
+                               [01;35m[K^~~~~~~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:70:31:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&pS2, NULL, [01;35m[KpaperSmoker2[m[K, NULL);
+                               [01;35m[K^~~~~~~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:71:31:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&mS1, NULL, [01;35m[KmatchSmoker1[m[K, NULL);
+                               [01;35m[K^~~~~~~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[Ksmoker.c:72:31:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Kpthread_create[m[K’ from incompatible pointer type [[01;35m[K-Wincompatible-pointer-types[m[K]
+    pthread_create(&mS2, NULL, [01;35m[KmatchSmoker2[m[K, NULL);
+                               [01;35m[K^~~~~~~~~~~~[m[K
+In file included from [01m[Ksmoker.c:6:0[m[K:
+[01m[K/usr/x86_64-linux-gnu/include/pthread.h:234:12:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kvoid * (*)(void *)[m[K’ but argument is of type ‘[01m[Kvoid (*)()[m[K’
+ extern int [01;36m[Kpthread_create[m[K (pthread_t *__restrict __newthread,
+            [01;36m[K^~~~~~~~~~~~~~[m[K
+/tmp/ccg6gkqH.o: In function `main':
+smoker.c:(.text+0x30): undefined reference to `pthread_create'
+smoker.c:(.text+0x4d): undefined reference to `pthread_create'
+smoker.c:(.text+0x6a): undefined reference to `pthread_create'
+smoker.c:(.text+0x87): undefined reference to `pthread_create'
+smoker.c:(.text+0xa4): undefined reference to `pthread_create'
+/tmp/ccg6gkqH.o:smoker.c:(.text+0xc1): more undefined references to `pthread_create' follow
+/tmp/ccg6gkqH.o: In function `main':
+smoker.c:(.text+0xee): undefined reference to `tobaccoSmoker2'
+smoker.c:(.text+0xfb): undefined reference to `pthread_create'
+smoker.c:(.text+0x118): undefined reference to `pthread_create'
+smoker.c:(.text+0x135): undefined reference to `pthread_create'
+smoker.c:(.text+0x152): undefined reference to `pthread_create'
+smoker.c:(.text+0x16f): undefined reference to `pthread_create'
+smoker.c:(.text+0x180): undefined reference to `pthread_join'
+smoker.c:(.text+0x191): undefined reference to `pthread_join'
+smoker.c:(.text+0x1a2): undefined reference to `pthread_join'
+smoker.c:(.text+0x1b3): undefined reference to `pthread_join'
+smoker.c:(.text+0x1c4): undefined reference to `pthread_join'
+/tmp/ccg6gkqH.o:smoker.c:(.text+0x1d5): more undefined references to `pthread_join' follow
+collect2: error: ld returned 1 exit status
+]0;bjl66@knuth2: ~/Downloads/Operating_Systems/LabYbjl66@knuth2:~/Downloads/Operating_Systems/LabY$ exit
+exit
+
+Script done on 2019-11-28 20:24:08-0500
