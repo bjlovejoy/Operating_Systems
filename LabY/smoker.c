@@ -37,16 +37,23 @@ int	isTobacco = false,
 // the items on the table
 //*tobaccoSem, paperSem and matchSem singal the smokers
 //*mutex is for mutual exclusion
-sem_t		agentSem,
+/*sem_t		agentSem,
 		tobacco,
 		paper,
 		match,
 		tobaccoSem,
 		paperSem,
 		matchSem,
-		mutex;
+		mutex;*/
 
-
+int		agentSem = 1,
+		tobacco = 0,
+		paper = 0,
+		match = 0,
+		tobaccoSem = 0,
+		paperSem = 0,
+		matchSem = 0,
+		mutex = 1;
 
 
 
@@ -55,14 +62,14 @@ int main()
 {
 printf("Here First");
 
-   sem_init(&agentSem, 0, 1);
+/*   sem_init(&agentSem, 0, 1);
    sem_init(&tobacco, 0, 0);
    sem_init(&paper, 0, 0);
    sem_init(&match, 0, 0);
    sem_init(&tobaccoSem, 0, 0);
    sem_init(&paperSem, 0, 0);
    sem_init(&matchSem, 0, 0);
-   sem_init(&mutex, 0, 1);
+   sem_init(&mutex, 0, 1);*/
 
    pthread_t a1, a2, a3;
    pthread_t p1, p2, p3;
@@ -139,6 +146,7 @@ void *agent2()
 	  printf("Output tobacco and match\n");
       j++;
    }
+   pthread_exit(0);
 }
 
 void *agent3()
@@ -154,6 +162,7 @@ void *agent3()
 	  printf("Output match and paper\n");
       k++;
    }
+   pthread_exit(0);
 }
 
 
@@ -183,6 +192,7 @@ void *pusher1()
       V(mutex);
       x++;
    }
+   pthread_exit(0);
 }
 
 //One with paper
@@ -209,6 +219,7 @@ void *pusher2()
       V(mutex);
       y++;
    }
+   pthread_exit(0);
 }
 
 //One with match
@@ -235,6 +246,7 @@ void *pusher3()
       V(mutex);
       z++;
    }
+   pthread_exit(0);
 }
 
 
@@ -254,6 +266,7 @@ void *tobaccoSmoker1()
       usleep(((rand() % 50) + 1) * 1000);
       a++;
    }
+   pthread_exit(0);
 }
 
 void *tobaccoSmoker2()
@@ -268,6 +281,7 @@ void *tobaccoSmoker2()
       usleep(((rand() % 50) + 1) * 1000);
       b++;
    }
+   pthread_exit(0);
 }
 
 void *paperSmoker1()
@@ -282,6 +296,7 @@ void *paperSmoker1()
       usleep(((rand() % 50) + 1) * 1000);
       c++;
    }
+   pthread_exit(0);
 }
 
 void *paperSmoker2()
@@ -296,6 +311,7 @@ void *paperSmoker2()
       usleep(((rand() % 50) + 1) * 1000);
       d++;
    }
+   pthread_exit(0);
 }
 
 void *matchSmoker1()
@@ -310,6 +326,7 @@ void *matchSmoker1()
       usleep(((rand() % 50) + 1) * 1000);
       e++;
    }
+   pthread_exit(0);
 }
 
 void *matchSmoker2()
@@ -324,6 +341,7 @@ void *matchSmoker2()
       usleep(((rand() % 50) + 1) * 1000);
       f++;
    }
+   pthread_exit(0);
 }
 
 
