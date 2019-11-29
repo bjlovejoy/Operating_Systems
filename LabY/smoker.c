@@ -231,7 +231,7 @@ void *tobaccoSmoker1()
    }
 }
 
-void *tobaccoSomker2()
+void *tobaccoSmoker2()
 {
    int b = 0;
    while(b < 3)
