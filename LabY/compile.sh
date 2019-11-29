@@ -2,7 +2,7 @@
 #ulimit -u
 
 #compile LabY
-gcc -o smoker smoker.c
+gcc -pthread -o smoker smoker.c
 
 #automatically run shell
 #./smoker

@@ -11,20 +11,20 @@
 void P();  //wait and --
 void V();  //release and ++
 
-void agent1();
-void agent2();
-void agent3();
+void *agent1();
+void *agent2();
+void *agent3();
 
-void pusher1();
-void pusher2();
-void pusher3();
+void *pusher1();
+void *pusher2();
+void *pusher3();
 
-void tobaccoSmoker1();
-void tobaccoSmoker2();
-void paperSmoker1();
-void paperSmoker2();
-void matchSmoker1();
-void matchSmoker2();
+void *tobaccoSmoker1();
+void *tobaccoSmoker2();
+void *paperSmoker1();
+void *paperSmoker2();
+void *matchSmoker1();
+void *matchSmoker2();
 
 //These determine what is currently on the table
 int	isTobacco = false,
@@ -96,7 +96,7 @@ int main()
 //Need to make 3 agent threads sleep for random period
 //of time (up to 200 milliseconds) before beginning to
 //wait on agentSem
-void agent1()
+void *agent1()
 {
    int i = 0;
    while(i < 6)
@@ -109,7 +109,7 @@ void agent1()
    }
 }
 
-void agent2()
+void *agent2()
 {
    int j = 0;
    while(j < 6)
@@ -122,7 +122,7 @@ void agent2()
    }
 }
 
-void agent3()
+void *agent3()
 {
    int k = 0;
    while(k < 6)
@@ -139,7 +139,7 @@ void agent3()
 
 //3 pushers for each combination
 //One with tobacco
-void pusher1()
+void *pusher1()
 {
    int x = 0;
    while(x < 12)
@@ -164,7 +164,7 @@ void pusher1()
 }
 
 //One with paper
-void pusher2()
+void *pusher2()
 {
    int y = 0;
    while(y < 12)
@@ -189,7 +189,7 @@ void pusher2()
 }
 
 //One with match
-void pusher3()
+void *pusher3()
 {
    int z = 0;
    while(z < 12)
@@ -218,7 +218,7 @@ void pusher3()
 //50 milliseconds for making and smoking the cigarette
 // (don't forget to release anything important)
 //6 smokers, each holding 2 items needing one additional item
-void tobaccoSmoker1()
+void *tobaccoSmoker1()
 {
    int a = 0;
    while(a < 3)
@@ -231,7 +231,7 @@ void tobaccoSmoker1()
    }
 }
 
-void tobaccoSomker2()
+void *tobaccoSomker2()
 {
    int b = 0;
    while(b < 3)
@@ -244,7 +244,7 @@ void tobaccoSomker2()
    }
 }
 
-void paperSmoker1()
+void *paperSmoker1()
 {
    int c = 0;
    while(c < 3)
@@ -257,7 +257,7 @@ void paperSmoker1()
    }
 }
 
-void paperSmoker2()
+void *paperSmoker2()
 {
    int d = 0;
    while(d < 3)
@@ -270,7 +270,7 @@ void paperSmoker2()
    }
 }
 
-void matchSmoker1()
+void *matchSmoker1()
 {
    int e = 0;
    while(e < 3)
@@ -283,7 +283,7 @@ void matchSmoker1()
    }
 }
 
-void matchSmoker2()
+void *matchSmoker2()
 {
    int f = 0;
    while(f < 3)
