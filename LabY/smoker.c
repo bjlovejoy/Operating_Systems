@@ -112,6 +112,7 @@ printf("Over Here");
 //wait on agentSem
 void *agent1()
 {
+   printf("Inside agent1\n");
    int i = 0;
    while(i < 6)
    {
@@ -119,6 +120,7 @@ void *agent1()
       P(agentSem);
       V(tobacco);
       V(paper);
+	  printf("Output tobacco and paper\n");
       i++;
    }
    pthread_exit(0);
@@ -126,6 +128,7 @@ void *agent1()
 
 void *agent2()
 {
+   printf("Inside agent2\n");
    int j = 0;
    while(j < 6)
    {
@@ -133,12 +136,14 @@ void *agent2()
       P(agentSem);
       V(tobacco);
       V(match);
+	  printf("Output tobacco and match\n");
       j++;
    }
 }
 
 void *agent3()
 {
+   printf("Inside agent3\n");
    int k = 0;
    while(k < 6)
    {
@@ -146,6 +151,7 @@ void *agent3()
       P(agentSem);
       V(match);
       V(paper);
+	  printf("Output match and paper\n");
       k++;
    }
 }
@@ -156,6 +162,7 @@ void *agent3()
 //One with tobacco
 void *pusher1()
 {
+   printf("Inside pusher1\n");
    int x = 0;
    while(x < 12)
    {
@@ -181,6 +188,7 @@ void *pusher1()
 //One with paper
 void *pusher2()
 {
+   printf("Inside pusher2\n");
    int y = 0;
    while(y < 12)
    {
@@ -206,6 +214,7 @@ void *pusher2()
 //One with match
 void *pusher3()
 {
+   printf("Inside pusher3\n");
    int z = 0;
    while(z < 12)
    {
@@ -239,9 +248,10 @@ void *tobaccoSmoker1()
    while(a < 3)
    {
       P(tobaccoSem);
-         usleep(((rand() % 50) + 1) * 1000);
+	  printf("tS1 smoking\n");
+      usleep(((rand() % 50) + 1) * 1000);
       V(agentSem);
-         usleep(((rand() % 50) + 1) * 1000);
+      usleep(((rand() % 50) + 1) * 1000);
       a++;
    }
 }
@@ -252,6 +262,7 @@ void *tobaccoSmoker2()
    while(b < 3)
    {
       P(tobaccoSem);
+	  printf("tS2 smoking\n");
       usleep(((rand() % 50) + 1) * 1000);
       V(agentSem);
       usleep(((rand() % 50) + 1) * 1000);
@@ -265,6 +276,7 @@ void *paperSmoker1()
    while(c < 3)
    {
       P(paperSem);
+	  printf("pS1 smoking\n");
       usleep(((rand() % 50) + 1) * 1000);
       V(agentSem);
       usleep(((rand() % 50) + 1) * 1000);
@@ -278,6 +290,7 @@ void *paperSmoker2()
    while(d < 3)
    {
       P(paperSem);
+	  printf("pS2 smoking\n");
       usleep(((rand() % 50) + 1) * 1000);
       V(agentSem);
       usleep(((rand() % 50) + 1) * 1000);
@@ -291,6 +304,7 @@ void *matchSmoker1()
    while(e < 3)
    {
       P(matchSem);
+	  printf("mS1 smoking\n");
       usleep(((rand() % 50) + 1) * 1000);
       V(agentSem);
       usleep(((rand() % 50) + 1) * 1000);
@@ -304,6 +318,7 @@ void *matchSmoker2()
    while(f < 3)
    {
       P(matchSem);
+	  printf("mS2 smoking\n");
       usleep(((rand() % 50) + 1) * 1000);
       V(agentSem);
       usleep(((rand() % 50) + 1) * 1000);
