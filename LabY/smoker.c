@@ -1,16 +1,20 @@
+/*
+ * Brendon Lovejoy, Corey Miller, Colin Frame
+ * bjl66@zips.uakron.edu
+ * Operating Systems
+ */
+
+
 #include <sys/types.h>
-#include <sys/wait.h>
 #include <unistd.h>	//POSIX functions
 #include <stdio.h>	//printing to screen (for testing)
 #include <stdlib.h>	//basic functions
 #include <pthread.h>
 #include <semaphore.h>
+#include <time.h>
 
 #define true  1
 #define false 0
-
-void P();  //wait and --
-void V();  //release and ++
 
 void *agent1();
 void *agent2();
@@ -27,58 +31,47 @@ void *paperSmoker2();
 void *matchSmoker1();
 void *matchSmoker2();
 
+time_t t;
 //These determine what is currently on the table
 int	isTobacco = false,
-	isPaper   = false,
-	isMatch   = false;
+      isPaper   = false,
+      isMatch   = false;
 
 //*agentSem is so only one agent outputs to the table
 //*tobacco, paper and match are binary semaphores for
 // the items on the table
 //*tobaccoSem, paperSem and matchSem singal the smokers
 //*mutex is for mutual exclusion
-/*sem_t		agentSem,
-		tobacco,
-		paper,
-		match,
-		tobaccoSem,
-		paperSem,
-		matchSem,
-		mutex;*/
-
-int		agentSem = 1,
-		tobacco = 0,
-		paper = 0,
-		match = 0,
-		tobaccoSem = 0,
-		paperSem = 0,
-		matchSem = 0,
-		mutex = 1;
-
-
-
+sem_t    agentSem,
+         tobacco,
+         paper,
+         match,
+         tobaccoSem,
+         paperSem,
+         matchSem,
+         mutex;
 
 int main()
 {
-printf("Here First");
-
-/*   sem_init(&agentSem, 0, 1);
+   srand((unsigned) time(&t));
+   
+   sem_init(&agentSem, 0, 1);
    sem_init(&tobacco, 0, 0);
    sem_init(&paper, 0, 0);
    sem_init(&match, 0, 0);
    sem_init(&tobaccoSem, 0, 0);
    sem_init(&paperSem, 0, 0);
    sem_init(&matchSem, 0, 0);
-   sem_init(&mutex, 0, 1);*/
+   sem_init(&mutex, 0, 1);
 
    pthread_t a1, a2, a3;
    pthread_t p1, p2, p3;
    pthread_t tS1, tS2, pS1, pS2, mS1, mS2;
-printf("Here");
+
    pthread_create(&a1, NULL, agent1, NULL);
    pthread_create(&a2, NULL, agent2, NULL);
    pthread_create(&a3, NULL, agent3, NULL);
-printf("Over Here");
+
    pthread_create(&p1, NULL, pusher1, NULL);
    pthread_create(&p2, NULL, pusher2, NULL);
    pthread_create(&p3, NULL, pusher3, NULL);
@@ -119,49 +112,52 @@ printf("Over Here");
 //wait on agentSem
 void *agent1()
 {
-   printf("Inside agent1\n");
+   printf("AGENT1:\t\tENTER\n");
    int i = 0;
    while(i < 6)
    {
       usleep(((rand() % 200) + 1) * 1000);
-      P(agentSem);
-      V(tobacco);
-      V(paper);
-	  printf("Output tobacco and paper\n");
+      sem_wait(&agentSem);
+      sem_post(&tobacco);
+      sem_post(&paper);
+	   printf("AGENT1:\t\toutput tobacco and paper\n");
       i++;
    }
+   printf("AGENT1:\t\tEXIT\n");
    pthread_exit(0);
 }
 
 void *agent2()
 {
-   printf("Inside agent2\n");
+   printf("AGENT2:\t\tENTER\n");
    int j = 0;
    while(j < 6)
    {
       usleep(((rand() % 200) + 1) * 1000);
-      P(agentSem);
-      V(tobacco);
-      V(match);
-	  printf("Output tobacco and match\n");
+      sem_wait(&agentSem);
+      sem_post(&tobacco);
+      sem_post(&match);
+      printf("AGENT2:\t\toutput tobacco and match\n");
       j++;
    }
+   printf("AGENT2:\t\tEXIT\n");
    pthread_exit(0);
 }
 
 void *agent3()
 {
-   printf("Inside agent3\n");
+   printf("AGENT3:\t\tENTER\n");
    int k = 0;
    while(k < 6)
    {
       usleep(((rand() % 200) + 1) * 1000);
-      P(agentSem);
-      V(match);
-      V(paper);
-	  printf("Output match and paper\n");
+      sem_wait(&agentSem);
+      sem_post(&match);
+      sem_post(&paper);
+      printf("AGENT3:\t\toutput match and paper\n");
       k++;
    }
+   printf("AGENT3:\t\tEXIT\n");
    pthread_exit(0);
 }
 
@@ -171,81 +167,84 @@ void *agent3()
 //One with tobacco
 void *pusher1()
 {
-   printf("Inside pusher1\n");
+   printf("PUSHER1:\tENTER\n");
    int x = 0;
    while(x < 12)
    {
-      P(tobacco);
-      P(mutex);
+      sem_wait(&tobacco);
+      sem_wait(&mutex);
       if(isPaper)
       {
          isPaper = false;
-         V(matchSem);
+         sem_post(&matchSem);
       }
       else if(isMatch)
       {
          isMatch = false;
-         V(paperSem);
+         sem_post(&paperSem);
       }
       else
          isTobacco = true;
-      V(mutex);
+      sem_post(&mutex);
       x++;
    }
+   printf("PUSHER1:\tEXIT\n");
    pthread_exit(0);
 }
 
 //One with paper
 void *pusher2()
 {
-   printf("Inside pusher2\n");
+   printf("PUSHER2:\tENTER\n");
    int y = 0;
    while(y < 12)
    {
-      P(paper);
-      P(mutex);
+      sem_wait(&paper);
+      sem_wait(&mutex);
       if(isTobacco)
       {
          isTobacco = false;
-         V(matchSem);
+         sem_post(&matchSem);
       }
       else if(isMatch)
       {
          isMatch = false;
-         V(tobaccoSem);
+         sem_post(&tobaccoSem);
       }
       else
          isPaper = true;
-      V(mutex);
+      sem_post(&mutex);
       y++;
    }
+   printf("PUSHER2:\tEXIT\n");
    pthread_exit(0);
 }
 
 //One with match
 void *pusher3()
 {
-   printf("Inside pusher3\n");
+   printf("PUSHER3:\tENTER\n");
    int z = 0;
    while(z < 12)
    {
-      P(match);
-      P(mutex);
+      sem_wait(&match);
+      sem_wait(&mutex);
       if(isPaper)
       {
          isPaper = false;
-         V(tobaccoSem);
+         sem_post(&tobaccoSem);
       }
       else if(isTobacco)
       {
          isTobacco = false;
-         V(paperSem);
+         sem_post(&paperSem);
       }
       else
          isMatch = true;
-      V(mutex);
+      sem_post(&mutex);
       z++;
    }
+   printf("PUSHER3:\tEXIT\n");
    pthread_exit(0);
 }
 
@@ -256,107 +255,130 @@ void *pusher3()
 //6 smokers, each holding 2 items needing one additional item
 void *tobaccoSmoker1()
 {
+   printf("T-SMOKER1:\tENTER\n");
    int a = 0;
+   int ms;
    while(a < 3)
    {
-      P(tobaccoSem);
-	  printf("tS1 smoking\n");
-      usleep(((rand() % 50) + 1) * 1000);
-      V(agentSem);
-      usleep(((rand() % 50) + 1) * 1000);
+      sem_wait(&tobaccoSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("tS1:\t\tmaking for %d ms\n", ms/1000);
+      usleep(ms);
+      sem_post(&agentSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("tS1:\t\tsmoking for %d ms\n", ms/1000);
+      usleep(ms);
       a++;
    }
+   printf("T-SMOKER1:\tEXIT\n");
    pthread_exit(0);
 }
 
 void *tobaccoSmoker2()
 {
+   printf("T-SMOKER2:\tENTER\n");
    int b = 0;
+   int ms;
    while(b < 3)
    {
-      P(tobaccoSem);
-	  printf("tS2 smoking\n");
-      usleep(((rand() % 50) + 1) * 1000);
-      V(agentSem);
-      usleep(((rand() % 50) + 1) * 1000);
+      sem_wait(&tobaccoSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("tS2:\t\tmaking for %d ms\n", ms/1000);
+      usleep(ms);
+      sem_post(&agentSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("tS2:\t\tsmoking for %d ms\n", ms/1000);
+      usleep(ms);
       b++;
    }
+   printf("T-SMOKER2:\tEXIT\n");
    pthread_exit(0);
 }
 
 void *paperSmoker1()
 {
+   printf("P-SMOKER1:\tENTER\n");
    int c = 0;
+   int ms;
    while(c < 3)
    {
-      P(paperSem);
-	  printf("pS1 smoking\n");
-      usleep(((rand() % 50) + 1) * 1000);
-      V(agentSem);
-      usleep(((rand() % 50) + 1) * 1000);
+      sem_wait(&paperSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("pS1:\t\tmaking for %d ms\n", ms/1000);
+      usleep(ms);
+      sem_post(&agentSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("pS1:\t\tsmoking for %d ms\n", ms/1000);
+      usleep(ms);
       c++;
    }
+   printf("P-SMOKER1:\tEXIT\n");
    pthread_exit(0);
 }
 
 void *paperSmoker2()
 {
+   printf("P-SMOKER2:\tENTER\n");
    int d = 0;
+   int ms;
    while(d < 3)
    {
-      P(paperSem);
-	  printf("pS2 smoking\n");
-      usleep(((rand() % 50) + 1) * 1000);
-      V(agentSem);
-      usleep(((rand() % 50) + 1) * 1000);
+      sem_wait(&paperSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("pS2:\t\tmaking for %d ms\n", ms/1000);
+      usleep(ms);
+      sem_post(&agentSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("pS2:\t\tsmoking for %d ms\n", ms/1000);
+      usleep(ms);
       d++;
    }
+   printf("P-SMOKER2:\tEXIT\n");
    pthread_exit(0);
 }
 
 void *matchSmoker1()
 {
+   printf("M-SMOKER1:\tENTER\n");
    int e = 0;
+   int ms;
    while(e < 3)
    {
-      P(matchSem);
-	  printf("mS1 smoking\n");
-      usleep(((rand() % 50) + 1) * 1000);
-      V(agentSem);
-      usleep(((rand() % 50) + 1) * 1000);
+      sem_wait(&matchSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("mS1:\t\tmaking for %d ms\n", ms/1000);
+      usleep(ms);
+      sem_post(&agentSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("mS1:\t\tsmoking for %d ms\n", ms/1000);
+      usleep(ms);
       e++;
    }
+   printf("M-SMOKER1:\tEXIT\n");
    pthread_exit(0);
 }
 
 void *matchSmoker2()
 {
+   printf("M-SMOKER2:\tENTER\n");
    int f = 0;
+   int ms;
    while(f < 3)
    {
-      P(matchSem);
-	  printf("mS2 smoking\n");
-      usleep(((rand() % 50) + 1) * 1000);
-      V(agentSem);
-      usleep(((rand() % 50) + 1) * 1000);
+      sem_wait(&matchSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("mS2:\t\tmaking for %d ms\n", ms/1000);
+      usleep(ms);
+      sem_post(&agentSem);
+      ms = ((rand() % 50) + 1) * 1000;
+      printf("mS2:\t\tsmoking for %d ms\n", ms/1000);
+      usleep(ms);
       f++;
    }
+   printf("M-SMOKER2:\tEXIT\n");
    pthread_exit(0);
 }
 
 
 
 
-
-void P(int s)
-{
-   while(s == 0);
-      //wait
-
-   s = s -1;
-}
-
-void V(int s)
-{
-   s = s + 1;
-}
